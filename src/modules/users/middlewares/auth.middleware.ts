@@ -30,7 +30,7 @@ export class UserAuthMiddleware {
         )
       }
 
-      const user = jwt.verify(token, Env.get('PROJECT_SECRET'))
+      const user = jwt.verify(token, Env.get('SECRET'))
       //   const user = await TokenClass.verifyUserToken(token);
       if (!user) {
         return next(
