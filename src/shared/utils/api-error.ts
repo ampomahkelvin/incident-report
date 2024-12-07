@@ -13,6 +13,10 @@ export class ApiError extends Error {
     this.details = details
   }
 
+  get statusCode(): number {
+    return this.code;
+  }
+
   appError(err: any, req: Request, res: Response, next: NextFunction) {
     const status = 'error'
 
