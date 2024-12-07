@@ -8,14 +8,18 @@ export class UserController {
 
     try {
       if (!username || !password) {
-        new ApiError(400, 'Missing data')
+        return new ApiError(400, 'Missing data')
       }
 
-      const newUser = await UserService.registerUser(username, password)
+      const { newUser, token } = await UserService.registerUser(
+        username,
+        password,
+      )
 
       return res.status(201).json({
         status: 201,
         message: 'User created',
+        token,
         user: newUser,
       })
     } catch (error) {
@@ -26,18 +30,22 @@ export class UserController {
   static loginUser = async (req: Request, res: Response) => {
     const { username, password } = req.body
 
+    if (!username || !password)
+      return res.json({ status: 400, message: 'Missing fields' })
+
     try {
-      if (!username || !password)
-        res.json({ status: 400, message: 'Missing fields' })
+      const { user, token } = await UserService.loginUser(username, password)
 
-      const user = await UserService.loginUser(username, password)
+      if (!user) {
+        return res
+          .status(400)
+          .json({ status: 400, message: 'Username or password is incorrect' })
+      }
 
-      if (!user)
-        res.json({ status: 400, message: 'Username or password is incorrect' })
-
-      res.json({
+      return res.json({
         status: 200,
         message: 'Login successful',
+        token,
         user,
       })
     } catch (error) {
