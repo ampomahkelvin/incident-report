@@ -7,7 +7,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "moduleResolution": "NodeNext",
-    "types": ["node", "jest", "mocha", "sinon-chai", "sinon"],
+    "types": ["node", "mocha", "sinon-chai", "sinon"],
     "removeComments": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
